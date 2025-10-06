@@ -1,70 +1,251 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![OMNI Logo](./src/assets/web-logo.png)
 
-## Available Scripts
+# 🧠 OMNI
+### *The All-in-One Life Operating System*
 
-In the project directory, you can run:
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 
-### `npm start`
+**Your life. Unified. Intelligent. Effortless.**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*OMNI is an AI-powered personal dashboard that unifies your daily life — tasks, goals, health, and finances — into one smart and adaptive system.*
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+[🚀 Get Started](#-quick-start) • [✨ Features](#-core-features) • [📖 Documentation](#-setup-instructions) • [👥 Team](#-meet-the-team)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+</div>
 
-### `npm run build`
+## 🎯 Mission Statement
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> *To empower individuals with one intelligent system that understands how they live — and helps them live better.*
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+OMNI transforms how you organize your life — combining productivity, wellness, and financial insights into one intelligent, secure ecosystem. It learns your habits, helps you plan better, and ensures privacy through JWT-based authentication.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## ✨ Core Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<table>
+<tr>
+<td width="50%">
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🧭 Unified Dashboard
+Consolidate tasks, goals, meals, and finances into one intelligent interface.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 🔐 JWT Authentication
+Bank-grade security with token-based user sessions.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🤖 AI Routine Optimizer
+Smart suggestions for focus blocks and rest intervals based on your patterns.
 
-## Learn More
+</td>
+<td width="50%">
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 💰 Expense Predictor
+AI-powered detection of overspending patterns and budget insights.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 💪 Health Pulse
+Track daily habits, physical activity, and wellness metrics.
 
-### Code Splitting
+### 🧘 Daily Brief
+Voice and text summaries of your day, priorities, and achievements.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+</td>
+</tr>
+</table>
 
-### Analyzing the Bundle Size
+### 📱 **Responsive Design** — Seamlessly works across web and mobile devices
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 🏗️ System Architecture
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```mermaid
+flowchart TB
+    subgraph Frontend
+        A[🎨 React.js UI]
+    end
+    
+    subgraph Backend
+        B[🔧 Express.js API]
+        H[🔐 JWT Auth Middleware]
+    end
+    
+    subgraph Storage
+        C[(💾 MongoDB/Supabase)]
+    end
+    
+    subgraph AI["🤖 AI Engine (Flask)"]
+        E[📊 Routine Optimizer]
+        F[💸 Expense Predictor]
+        G[❤️ Health Analyzer]
+    end
+    
+    A -->|Axios API Calls| B
+    B <-->|Secure Token Validation| H
+    B <-->|Data Persistence| C
+    B <-->|AI Requests| E & F & G
+    A -.->|Real-time Insights| AI
+    
+    style A fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#4EA94B,stroke:#333,stroke-width:2px,color:#fff
+    style AI fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#000,stroke:#333,stroke-width:2px,color:#fff
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🚀 Quick Start
 
-### Deployment
+Get OMNI running locally in minutes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/SeifEddineMezned/omni.git
 
-### `npm run build` fails to minify
+# 2️⃣ Navigate into the project
+cd omni
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# 3️⃣ Install dependencies
+npm install
+
+# 4️⃣ Configure environment variables
+# Create a .env file with:
+# MONGO_URI=your_mongodb_connection_string
+# JWT_SECRET=your_secret_key_here
+
+# 5️⃣ Launch the application
+npm start
+```
+
+🌐 Open [http://localhost:3000](http://localhost:3000) in your browser and start organizing your life!
+
+> ⚠️ **Note:** `node_modules` is excluded via `.gitignore` — always run `npm install` after cloning.
+
+---
+
+## 🛠️ Technology Stack
+
+<div align="center">
+
+| Layer | Technology | Purpose |
+|:-----:|:-----------|:--------|
+| **Frontend** | React.js | Modern, component-based UI framework |
+| **Routing** | React Router DOM | Seamless page navigation |
+| **API Client** | Axios | Efficient HTTP communication |
+| **Backend** | Node.js + Express.js | RESTful API server |
+| **Authentication** | JWT | Secure, stateless user sessions |
+| **AI Engine** | Flask (Python) | Machine learning microservice |
+| **Database** | MongoDB / Supabase | Scalable data storage |
+| **Version Control** | GitHub | Collaboration and CI/CD |
+
+</div>
+
+---
+
+## 📁 Project Structure
+
+```
+omni/
+│
+├── 📂 src/
+│   ├── 🎨 assets/          # Logos, images, and static files
+│   ├── 🧩 components/      # Reusable React components
+│   ├── 📄 pages/           # Application views (Dashboard, Settings, etc.)
+│   ├── 🔧 services/        # API integration & JWT helpers
+│   ├── App.js              # Root React component
+│   ├── App.css             # Global styling
+│   └── index.js            # Application entry point
+│
+├── 📦 package.json         # Dependencies and scripts
+├── 🔒 .env.example         # Environment variables template
+└── 📖 README.md            # You are here!
+```
+
+---
+
+## 👥 Meet the Team
+
+<div align="center">
+
+**Built with passion by:**
+
+| Seif Eddine Mezned | Brahim Amous | Mohamed Barrak | Hiba Allah Msallem |
+|:------------------:|:------------:|:--------------:|:------------------:|
+| 🧑‍💻 | 🧑‍💻 | 🧑‍💻 | 🧑‍💻 |
+
+*MedTech University — CS 324 Web Development Project*
+
+</div>
+
+---
+
+## 🌟 Why OMNI?
+
+<table>
+<tr>
+<td align="center" width="25%">
+<h3>🎯</h3>
+<strong>All-in-One</strong><br/>
+No more app-switching chaos
+</td>
+<td align="center" width="25%">
+<h3>🧠</h3>
+<strong>AI-Powered</strong><br/>
+Smart insights that adapt to you
+</td>
+<td align="center" width="25%">
+<h3>🔒</h3>
+<strong>Secure</strong><br/>
+Your data stays private
+</td>
+<td align="center" width="25%">
+<h3>📱</h3>
+<strong>Accessible</strong><br/>
+Works everywhere, anytime
+</td>
+</tr>
+</table>
+
+---
+
+## 🎨 Visual Showcase
+
+<div align="center">
+
+*"The OMNI interface — design and intelligence, unified."*
+
+🖼️ **Screenshots coming soon!**
+
+</div>
+
+---
+
+## 📜 License
+
+```
+© 2025 OMNI Team — MedTech University
+CS 324 — Web Development Project
+
+This project is developed for educational purposes.
+```
+
+---
+
+<div align="center">
+
+### 🌟 Star this repo if you find it useful!
+
+**Made with ❤️ and ☕ by the OMNI Team**
+
+[⬆ Back to Top](#-omni)
+
+</div>

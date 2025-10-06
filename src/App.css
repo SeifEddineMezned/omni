@@ -1,38 +1,62 @@
+/* General Page Style */
+body, html {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #0a0a0a 0%, #090c1a 100%);
+  color: #e0e0e0;
+  font-family: "Inter", sans-serif;
+  height: 100vh;
+}
+
+/* Main Container */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
+  padding: 40px 20px;
 }
 
-.App-link {
-  color: #61dafb;
+/* Header */
+.header .logo {
+  width: 180px;
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header h1 {
+  color: #38bdf8;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+}
+
+/* Description */
+.description {
+  max-width: 600px;
+  line-height: 1.6;
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 40px;
+}
+
+/* Team Section */
+.team h2 {
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.team ul {
+  list-style: none;
+  padding: 0;
+}
+
+.team li {
+  font-size: 1.1rem;
+  margin: 5px 0;
+}
+
+/* Footer */
+.footer {
+  margin-top: 50px;
+  font-size: 0.9rem;
+  color: #777;
 }
