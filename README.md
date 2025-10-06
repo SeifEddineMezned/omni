@@ -180,9 +180,9 @@ omni/
 
 | Seif Eddine Mezned | Brahim Amous | Mohamed Barrak | Hiba Allah Msallem |
 |:------------------:|:------------:|:--------------:|:------------------:|
-| 🧑‍💻 | 🧑‍💻 | 🧑‍💻 | 🧑‍💻 |
 
-*MedTech University — CS 324 Web Development Project*
+
+*MedTech University CS 324 Web Development Project*
 
 </div>
 
@@ -221,7 +221,7 @@ Works everywhere, anytime
 
 <div align="center">
 
-*"The OMNI interface — design and intelligence, unified."*
+*"The OMNI interface design and intelligence, unified."*
 
 🖼️ **Screenshots coming soon!**
 
@@ -232,8 +232,8 @@ Works everywhere, anytime
 ## 📜 License
 
 ```
-© 2025 OMNI Team — MedTech University
-CS 324 — Web Development Project
+© 2025 OMNI Team
+CS 324 Web Development Project
 
 This project is developed for educational purposes.
 ```
