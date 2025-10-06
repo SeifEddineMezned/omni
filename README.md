@@ -14,7 +14,7 @@
 
 **Your life. Unified. Intelligent. Effortless.**
 
-*OMNI is an AI-powered personal dashboard that unifies your daily life — tasks, goals, health, and finances — into one smart and adaptive system.*
+*OMNI is an AI-powered personal dashboard that unifies your daily life  tasks, goals, health, and finances  into one smart and adaptive system.*
 
 [🚀 Get Started](#-quick-start) • [✨ Features](#-core-features) • [📖 Documentation](#-setup-instructions) • [👥 Team](#-meet-the-team)
 
@@ -24,9 +24,9 @@
 
 ## 🎯 Mission Statement
 
-> *To empower individuals with one intelligent system that understands how they live — and helps them live better.*
+> *To empower individuals with one intelligent system that understands how they live  and helps them live better.*
 
-OMNI transforms how you organize your life — combining productivity, wellness, and financial insights into one intelligent, secure ecosystem. It learns your habits, helps you plan better, and ensures privacy through JWT-based authentication.
+OMNI transforms how you organize your life  combining productivity, wellness, and financial insights into one intelligent, secure ecosystem. It learns your habits, helps you plan better, and ensures privacy through JWT-based authentication.
 
 ---
 
@@ -61,7 +61,7 @@ Voice and text summaries of your day, priorities, and achievements.
 </tr>
 </table>
 
-### 📱 **Responsive Design** — Seamlessly works across web and mobile devices
+### 📱 **Responsive Design**  Seamlessly works across web and mobile devices
 
 ---
 
@@ -128,7 +128,7 @@ npm start
 
 🌐 Open [http://localhost:3000](http://localhost:3000) in your browser and start organizing your life!
 
-> ⚠️ **Note:** `node_modules` is excluded via `.gitignore` — always run `npm install` after cloning.
+> ⚠️ **Note:** `node_modules` is excluded via `.gitignore`  always run `npm install` after cloning.
 
 ---
 
