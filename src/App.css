@@ -1,62 +1,309 @@
-/* General Page Style */
-body, html {
+/* 🌌 Base */
+body {
   margin: 0;
-  padding: 0;
-  background: radial-gradient(circle at top, #0a0a0a 0%, #090c1a 100%);
-  color: #e0e0e0;
-  font-family: "Inter", sans-serif;
-  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top left, #0d1117, #010409);
+  color: #e6edf3;
 }
 
-/* Main Container */
-.App {
+/* Layout */
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 40px 20px;
+  min-height: 100vh;
 }
 
-/* Header */
-.header .logo {
-  width: 180px;
-  margin-bottom: 20px;
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: #161b22;
+  border-right: 1px solid #30363d;
+  padding: 30px 20px;
 }
 
-.header h1 {
-  color: #38bdf8;
-  margin-bottom: 15px;
-  font-size: 1.8rem;
-}
-
-/* Description */
-.description {
-  max-width: 600px;
-  line-height: 1.6;
-  font-size: 1.1rem;
-  color: #ccc;
-  margin-bottom: 40px;
-}
-
-/* Team Section */
-.team h2 {
-  color: #9ca3af;
-  margin-bottom: 10px;
-}
-
-.team ul {
+.sidebar ul {
   list-style: none;
   padding: 0;
 }
 
-.team li {
-  font-size: 1.1rem;
-  margin: 5px 0;
+.sidebar li {
+  margin: 18px 0;
+  cursor: pointer;
+  color: #c9d1d9;
+  transition: 0.3s;
+}
+
+.sidebar li:hover {
+  color: #58a6ff;
+}
+
+/* Header */
+.header {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+}
+
+.header h1 {
+  background: linear-gradient(90deg, #58a6ff, #8b5cf6);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.header .status {
+  background: linear-gradient(90deg, #58a6ff, #8b5cf6);
+  color: black;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  padding: 25px;
+}
+
+/* Dashboard Cards */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  border-color: #58a6ff;
+  transform: translateY(-3px);
+}
+
+/* Tasks */
+.tasks {
+  margin-top: 30px;
+  background: #0d1117;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #30363d;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #21262d;
+}
+
+.task:last-child {
+  border: none;
+}
+
+.status {
+  font-weight: 500;
+}
+
+.status.done {
+  color: #3fb950;
+}
+
+.status.progress {
+  color: #f1e05a;
+}
+
+.status.todo {
+  color: #58a6ff;
 }
 
 /* Footer */
 .footer {
-  margin-top: 50px;
-  font-size: 0.9rem;
-  color: #777;
+  text-align: center;
+  padding: 15px;
+  background: #161b22;
+  color: #8b949e;
+  border-top: 1px solid #30363d;
+  margin-top: 30px;
+}
+
+/* 🌗 THEMES */
+.light-theme {
+  background: #f2f4f8;
+  color: #1e1e1e;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.dark-theme {
+  background: radial-gradient(circle at top left, #0d1117, #010409);
+  color: #e6edf3;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Sidebar Light */
+.light-theme .sidebar {
+  background: #ffffff;
+  color: #1e1e1e;
+  border-right: 1px solid #d1d5db;
+}
+
+.light-theme .sidebar li {
+  color: #374151;
+}
+
+.light-theme .sidebar li:hover {
+  color: #2563eb;
+}
+
+/* Header Light */
+.light-theme .header {
+  background: #ffffff;
+  color: #1e1e1e;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.light-theme .header .status {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  color: white;
+}
+
+/* Cards Light */
+.light-theme .card {
+  background: #ffffff;
+  color: #1e1e1e;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .card:hover {
+  border-color: #2563eb;
+  transform: translateY(-3px);
+}
+
+/* Tasks Light */
+.light-theme .tasks {
+  background: #ffffff;
+  color: #1e1e1e;
+  border: 1px solid #d1d5db;
+}
+
+.light-theme .task {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.light-theme .status.todo {
+  color: #2563eb;
+}
+
+.light-theme .status.progress {
+  color: #d97706;
+}
+
+.light-theme .status.done {
+  color: #059669;
+}
+
+/* Footer Light */
+.light-theme .footer {
+  background: #ffffff;
+  color: #6b7280;
+  border-top: 1px solid #d1d5db;
+}
+
+/* No Tasks */
+.no-tasks {
+  color: #8b949e;
+  margin-top: 20px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* 🌙 Fancy Toggle Switch (Uiverse.io) */
+.switch-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5em;
+  gap: 10px;
+  color: inherit;
+  font-weight: 500;
+}
+
+.l {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 0.75em;
+  box-shadow: 0.125em 0.125em 0 0.125em rgba(0, 0, 0, 0.3) inset;
+  color: #fdea7b;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15em;
+  width: 3em;
+  height: 1.5em;
+  transition:
+    background-color 0.1s 0.3s ease-out,
+    box-shadow 0.1s 0.3s ease-out;
+  appearance: none;
+  cursor: pointer;
+}
+
+.l:before,
+.l:after {
+  content: "";
+  display: block;
+}
+
+.l:before {
+  background-color: #d7d7d7;
+  border-radius: 50%;
+  width: 1.2em;
+  height: 1.2em;
+  transition:
+    background-color 0.1s 0.3s ease-out,
+    transform 0.3s ease-out;
+  z-index: 1;
+}
+
+.l:after {
+  background:
+    linear-gradient(transparent 50%, rgba(0, 0, 0, 0.15) 0) 0 50% / 50% 100%,
+    repeating-linear-gradient(90deg, #bbb 0, #bbb, #bbb 20%, #999 20%, #999 40%)
+      0 50% / 50% 100%,
+    radial-gradient(circle at 50% 50%, #888 25%, transparent 26%);
+  background-repeat: no-repeat;
+  border: 0.25em solid transparent;
+  border-left: 0.4em solid #d8d8d8;
+  transform: translateX(-22.5%);
+  transform-origin: 25% 50%;
+  width: 1.2em;
+  height: 1em;
+  box-sizing: border-box;
+  transition:
+    border-left-color 0.1s 0.3s ease-out,
+    transform 0.3s ease-out;
+}
+
+/* Checked State */
+.l:checked {
+  background-color: rgba(0, 0, 0, 0.45);
+  box-shadow: 0.125em 0.125em 0 0.125em rgba(0, 0, 0, 0.1) inset;
+}
+
+.l:checked:before {
+  background-color: currentColor;
+  transform: translateX(125%);
+}
+
+.l:checked:after {
+  border-left-color: currentColor;
+  transform: translateX(-2.5%) rotateY(180deg);
+}
+
+.l:focus {
+  outline: 0;
 }

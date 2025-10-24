@@ -1,37 +1,52 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
+import TaskList from "./components/TaskList";
+import Footer from "./components/Footer";
+import { user, tasks, stats } from "./mockData";
 import "./App.css";
-import logo from "./assets/web-logo.png";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [taskData, setTaskData] = useState([]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => setTaskData(data))
+      .catch(() => setTaskData(tasks));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="header">
-        <img src={logo} alt="OMNI Logo" className="logo" />
-        <h1>OMNI The All in One Life Operating System</h1>
-      </header>
+    <div className={darkMode ? "dark-theme" : "light-theme"}>
+      <Header user={user} />
+      <div className="container">
+        <Sidebar />
+        <main className="main">
+          <div className="switch-wrapper">
+            <input
+              type="checkbox"
+              id="themeSwitch"
+              className="l"
+              checked={darkMode}
+              onChange={() => setDarkMode(!darkMode)}
+            />
+            <label htmlFor="themeSwitch" style={{ marginLeft: "10px" }}>
+              {darkMode ? "Dark Mode" : "Light Mode"}
+            </label>
+          </div>
 
-      <section className="description">
-        <p>
-          OMNI is an AI-powered personal dashboard that unifies your daily life
-          tasks, goals, health, and budget into one smart, adaptive system.
-          It simplifies time management, improves productivity, and helps you
-          make better everyday decisions.
-        </p>
-      </section>
+          <Dashboard stats={stats} />
 
-      <section className="team">
-        <h2>Team Members</h2>
-        <ul>
-          <li>Seif Eddine Mezned</li>
-          <li>Brahim Amous</li>
-          <li>Mohamed Barrak</li>
-          <li>Hiba Allah Msallem</li>
-        </ul>
-      </section>
-
-      <footer className="footer">
-        <p>CS 324 Deliverable 1 </p>
-      </footer>
+          {taskData.length ? (
+            <TaskList tasks={taskData} />
+          ) : (
+            <p className="no-tasks">No tasks available.</p>
+          )}
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 }
