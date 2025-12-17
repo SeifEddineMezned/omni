@@ -1,206 +1,251 @@
-# Omni - Life Management Hub
+<div align="center">
 
-A full-stack web application for managing your life - tasks, habits, goals, finance, health, and more.
+![OMNI Logo](./src/assets/web-logo.png)
 
-## 🚀 Features
+# 🧠 OMNI
+### *The All-in-One Life Operating System*
 
-- **User Authentication** - Secure JWT-based authentication with HttpOnly cookies
-- **Task Management** - Organize and track your daily tasks
-- **Habit Tracker** - Build and maintain positive habits
-- **Goal Manager** - Set and achieve your life goals
-- **Finance Hub** - Track expenses and manage budgets
-- **Health Tracker** - Monitor your health metrics
-- **Analytics Dashboard** - Get insights into your productivity
-- **Smart Notifications** - Stay on top of important reminders
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 
-## 🛠️ Tech Stack
+**Your life. Unified. Intelligent. Effortless.**
 
-### Frontend
-- React 18
-- Material-UI (MUI)
-- React Router
-- Axios
-- React Context API
+*OMNI is an AI-powered personal dashboard that unifies your daily life  tasks, goals, health, and finances  into one smart and adaptive system.*
 
-### Backend
-- Node.js
-- Express.js
-- JWT Authentication
-- Bcrypt for password hashing
-- Cookie-parser for HttpOnly cookies
+[🚀 Get Started](#-quick-start) • [✨ Features](#-core-features) • [📖 Documentation](#-setup-instructions) • [👥 Team](#-meet-the-team)
+
+---
+
+</div>
+
+## 🎯 Mission Statement
+
+> *To empower individuals with one intelligent system that understands how they live  and helps them live better.*
+
+OMNI transforms how you organize your life  combining productivity, wellness, and financial insights into one intelligent, secure ecosystem. It learns your habits, helps you plan better, and ensures privacy through JWT-based authentication.
+
+---
+
+## ✨ Core Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🧭 Unified Dashboard
+Consolidate tasks, goals, meals, and finances into one intelligent interface.
+
+### 🔐 JWT Authentication
+Bank-grade security with token-based user sessions.
+
+### 🤖 AI Routine Optimizer
+Smart suggestions for focus blocks and rest intervals based on your patterns.
+
+</td>
+<td width="50%">
+
+### 💰 Expense Predictor
+AI-powered detection of overspending patterns and budget insights.
+
+### 💪 Health Pulse
+Track daily habits, physical activity, and wellness metrics.
+
+### 🧘 Daily Brief
+Voice and text summaries of your day, priorities, and achievements.
+
+</td>
+</tr>
+</table>
+
+### 📱 **Responsive Design**  Seamlessly works across web and mobile devices
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TB
+    subgraph Frontend
+        A[🎨 React.js UI]
+    end
+    
+    subgraph Backend
+        B[🔧 Express.js API]
+        H[🔐 JWT Auth Middleware]
+    end
+    
+    subgraph Storage
+        C[(💾 MongoDB/Supabase)]
+    end
+    
+    subgraph AI["🤖 AI Engine (Flask)"]
+        E[📊 Routine Optimizer]
+        F[💸 Expense Predictor]
+        G[❤️ Health Analyzer]
+    end
+    
+    A -->|Axios API Calls| B
+    B <-->|Secure Token Validation| H
+    B <-->|Data Persistence| C
+    B <-->|AI Requests| E & F & G
+    A -.->|Real-time Insights| AI
+    
+    style A fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    style B fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#4EA94B,stroke:#333,stroke-width:2px,color:#fff
+    style AI fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#000,stroke:#333,stroke-width:2px,color:#fff
+```
+
+---
+
+## 🚀 Quick Start
+
+Get OMNI running locally in minutes:
+
+```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/SeifEddineMezned/omni.git
+
+# 2️⃣ Navigate into the project
+cd omni
+
+# 3️⃣ Install dependencies
+npm install
+
+# 4️⃣ Configure environment variables
+# Create a .env file with:
+# MONGO_URI=your_mongodb_connection_string
+# JWT_SECRET=your_secret_key_here
+
+# 5️⃣ Launch the application
+npm start
+```
+
+🌐 Open [http://localhost:3000](http://localhost:3000) in your browser and start organizing your life!
+
+> ⚠️ **Note:** `node_modules` is excluded via `.gitignore`  always run `npm install` after cloning.
+
+---
+
+## 🛠️ Technology Stack
+
+<div align="center">
+
+| Layer | Technology | Purpose |
+|:-----:|:-----------|:--------|
+| **Frontend** | React.js | Modern, component-based UI framework |
+| **Routing** | React Router DOM | Seamless page navigation |
+| **API Client** | Axios | Efficient HTTP communication |
+| **Backend** | Node.js + Express.js | RESTful API server |
+| **Authentication** | JWT | Secure, stateless user sessions |
+| **AI Engine** | Flask (Python) | Machine learning microservice |
+| **Database** | MongoDB / Supabase | Scalable data storage |
+| **Version Control** | GitHub | Collaboration and CI/CD |
+
+</div>
+
+---
 
 ## 📁 Project Structure
 
 ```
-omni-main/
-├── frontend/          # React frontend application
-│   ├── src/
-│   │   ├── components/
-│   │   ├── services/
-│   │   └── utils/
-│   └── package.json
-├── backend/           # Node.js/Express backend API
-│   ├── config/
-│   ├── controllers/
-│   ├── middlewares/
-│   ├── routes/
-│   ├── utils/
-│   └── server.js
-└── package.json       # Root package.json with scripts
+omni/
+│
+├── 📂 src/
+│   ├── 🎨 assets/          # Logos, images, and static files
+│   ├── 🧩 components/      # Reusable React components
+│   ├── 📄 pages/           # Application views (Dashboard, Settings, etc.)
+│   ├── 🔧 services/        # API integration & JWT helpers
+│   ├── App.js              # Root React component
+│   ├── App.css             # Global styling
+│   └── index.js            # Application entry point
+│
+├── 📦 package.json         # Dependencies and scripts
+├── 🔒 .env.example         # Environment variables template
+└── 📖 README.md            # You are here!
 ```
 
-## 🚦 Getting Started
+---
 
-### Prerequisites
+## 👥 Meet the Team
 
-- Node.js (v14 or higher)
-- npm or yarn
+<div align="center">
 
-### Installation
+**Built with passion by:**
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd omni-main
-   ```
+| Seif Eddine Mezned | Brahim Amous | Mohamed Barrak | Hiba Allah Msallem |
+|:------------------:|:------------:|:--------------:|:------------------:|
 
-2. **Install dependencies**
-   ```bash
-   # Install root dependencies
-   npm install
-   
-   # Install backend dependencies
-   cd backend
-   npm install
-   
-   # Install frontend dependencies
-   cd ../frontend
-   npm install
-   ```
 
-3. **Set up environment variables**
+*MedTech University CS 324 Web Development Project*
 
-   Create `backend/.env`:
-   ```env
-   PORT=5000
-   CLIENT_ORIGIN=http://localhost:3000
-   JWT_SECRET=your-secret-key-here
-   JWT_EXPIRES_IN=7d
-   COOKIE_NAME=access_token
-   COOKIE_SECURE=false
-   COOKIE_SAMESITE=lax
-   COOKIE_MAX_AGE_MS=604800000
-   ```
+</div>
 
-   Create `frontend/.env` (optional):
-   ```env
-   REACT_APP_API_URL=http://localhost:5000/api
-   ```
+---
 
-### Running the Application
+## 🌟 Why OMNI?
 
-**Option 1: Run both servers together**
-```bash
-npm run dev
+<table>
+<tr>
+<td align="center" width="25%">
+<h3>🎯</h3>
+<strong>All-in-One</strong><br/>
+No more app-switching chaos
+</td>
+<td align="center" width="25%">
+<h3>🧠</h3>
+<strong>AI-Powered</strong><br/>
+Smart insights that adapt to you
+</td>
+<td align="center" width="25%">
+<h3>🔒</h3>
+<strong>Secure</strong><br/>
+Your data stays private
+</td>
+<td align="center" width="25%">
+<h3>📱</h3>
+<strong>Accessible</strong><br/>
+Works everywhere, anytime
+</td>
+</tr>
+</table>
+
+---
+
+## 🎨 Visual Showcase
+
+<div align="center">
+
+*"The OMNI interface design and intelligence, unified."*
+
+🖼️ **Screenshots coming soon!**
+
+</div>
+
+---
+
+## 📜 License
+
+```
+© 2025 OMNI Team
+CS 324 Web Development Project
+
+This project is developed for educational purposes.
 ```
 
-**Option 2: Run separately**
+---
 
-Terminal 1 - Backend:
-```bash
-cd backend
-npm run dev
-```
+<div align="center">
 
-Terminal 2 - Frontend:
-```bash
-cd frontend
-npm run dev
-```
+### 🌟 Star this repo if you find it useful!
 
-The application will be available at:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
+**Made with ❤️ and ☕ by the OMNI Team**
 
-## 📝 API Endpoints
+[⬆ Back to Top](#-omni)
 
-### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
-- `GET /api/auth/users` - List all users (debug)
-
-### Protected Routes
-- `GET /api/protected/profile` - Get user profile
-
-### Public Routes
-- `GET /api/public/health` - Health check
-
-## 🔐 Authentication
-
-The application uses JWT tokens stored in HttpOnly cookies for secure authentication. The frontend automatically sends cookies with every request using `withCredentials: true`.
-
-## 🧪 Testing
-
-Test the API endpoints using Postman or any HTTP client:
-
-1. Register a user:
-   ```json
-   POST http://localhost:5000/api/auth/register
-   {
-     "email": "test@example.com",
-     "password": "password123",
-     "role": "user"
-   }
-   ```
-
-2. Login:
-   ```json
-   POST http://localhost:5000/api/auth/login
-   {
-     "email": "test@example.com",
-     "password": "password123"
-   }
-   ```
-
-3. Access protected route:
-   ```
-   GET http://localhost:5000/api/protected/profile
-   ```
-
-## 📦 Scripts
-
-### Root Level
-- `npm run dev` - Run both frontend and backend
-- `npm run dev:backend` - Run backend only
-- `npm run dev:frontend` - Run frontend only
-- `npm run install:all` - Install all dependencies
-
-### Backend
-- `npm run dev` - Start development server with nodemon
-- `npm start` - Start production server
-
-### Frontend
-- `npm start` or `npm run dev` - Start development server
-- `npm run build` - Build for production
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 👤 Author
-
-Your Name
-
-## 🙏 Acknowledgments
-
-- Material-UI for the beautiful component library
-- Express.js community for excellent documentation
+</div>
