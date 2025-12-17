@@ -1,0 +1,100 @@
+/* Brand background CSS
+- Large, subtle centered logo with blur, low opacity, optional slow rotation & pulse
+- Place logo image in public/logo-bg.png
+*/
+
+.brand-bg {
+  position: fixed;
+  inset: 0; /* cover entire viewport */
+  pointer-events: none;
+  z-index: 0; /* behind all normal content (App content should be z-index > 0) */
+  overflow: hidden;
+}
+
+.brand-bg__image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vmin;
+  height: 120vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: var(--brand-opacity, 0.25);
+  filter: blur(var(--brand-blur, 8px)) saturate(1.1) brightness(0.95);
+  mix-blend-mode: var(--brand-blend, screen);
+  transform-origin: center;
+  transition: opacity 300ms ease;
+  will-change: opacity;
+  pointer-events: none;
+  -webkit-transform: translate(-50%, -50%);
+}
+
+/* slow rotation */
+@keyframes brandRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(2deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+/* gentle pulse on center */
+@keyframes brandPulse {
+  0% {
+    filter: blur(var(--brand-blur, 16px)) saturate(1.05) brightness(0.98);
+  }
+  50% {
+    filter: blur(calc(var(--brand-blur, 16px) * 0.9)) saturate(1.12)
+      brightness(1.02);
+  }
+  100% {
+    filter: blur(var(--brand-blur, 16px)) saturate(1.05) brightness(0.98);
+  }
+}
+
+.brand-bg__image.animate {
+  animation: brandRotate 40s linear infinite, brandPulse 6s ease-in-out infinite;
+}
+
+/* Responsive tuning */
+@media (max-width: 900px) {
+  .brand-bg__image {
+    width: 260vmin;
+    height: 260vmin;
+    opacity: calc(var(--brand-opacity, 0.25) * 0.9);
+    filter: blur(calc(var(--brand-blur, 8px) * 0.9)) saturate(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-bg__image {
+    width: 360vmin;
+    height: 360vmin;
+    opacity: calc(var(--brand-opacity, 0.25) * 0.8);
+    filter: blur(calc(var(--brand-blur, 8px) * 0.85)) saturate(1.02);
+  }
+}
+
+/* Loader sizing inside the background */
+.brand-bg__loader {
+  width: 70vmin;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+.brand-bg__loader svg {
+  width: 100%;
+  height: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 12px 30px rgba(0,0,0,0.45));
+}
+
+/* Ensure content sits above background: components should use z-index >= 1 */
