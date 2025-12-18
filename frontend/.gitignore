@@ -1,0 +1,15 @@
+# Secrets
+.env
+.env.local
+
+# Builds
+dist/
+build/
+.next/
+out/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
