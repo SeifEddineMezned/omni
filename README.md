@@ -1,6 +1,6 @@
 <div align="center">
 
-![OMNI Logo](./src/assets/web-logo.png)
+![OMNI Logo](frontend/public/favicon.ico)
 
 # 🧠 OMNI
 ### *The All-in-One Life Operating System*
@@ -249,3 +249,4 @@ This project is developed for educational purposes.
 [⬆ Back to Top](#-omni)
 
 </div>
+
