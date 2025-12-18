@@ -5,6 +5,8 @@ import React, {
   useContext,
   useReducer,
   useEffect,
+  useCallback,
+  useMemo,
 } from "react";
 import {
   BrowserRouter as Router,
@@ -99,11 +101,28 @@ function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const { user, themeMode, sidebarOpen, loading } = state;
 
-  const theme = React.useMemo(
+  /* ✅ THEME */
+  const theme = useMemo(
     () => (themeMode === "dark" ? themes.dark : themes.light),
     [themeMode]
   );
 
+  const toggleTheme = useCallback(() => {
+    const newMode = themeMode === "light" ? "dark" : "light";
+    dispatch({ type: "SET_THEME_MODE", payload: newMode });
+    localStorage.setItem("themeMode", newMode);
+  }, [themeMode]);
+
+  const contextValue = useMemo(
+    () => ({
+      state,
+      dispatch,
+      toggleTheme,
+    }),
+    [state, toggleTheme]
+  );
+
+  /* 🔐 AUTH INIT */
   useEffect(() => {
     const initializeAuth = async () => {
       const storedTheme = localStorage.getItem("themeMode") || "light";
@@ -131,7 +150,7 @@ function App() {
     initializeAuth();
   }, []);
 
-  /* 🤖 Load ElevenLabs widget ONLY when authenticated */
+  /* 🤖 ElevenLabs widget — AUTHENTICATED ONLY */
   useEffect(() => {
     if (!user) return;
 
@@ -159,7 +178,7 @@ function App() {
     return (
       <>
         <BrandBackground />
-        <AppContext.Provider value={{ state, dispatch }}>
+        <AppContext.Provider value={contextValue}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             {loading && <LoadingSpinner />}
@@ -182,7 +201,7 @@ function App() {
   return (
     <>
       <BrandBackground />
-      <AppContext.Provider value={{ state, dispatch }}>
+      <AppContext.Provider value={contextValue}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {loading && <LoadingSpinner />}
@@ -256,7 +275,7 @@ function App() {
               </Box>
             </Box>
 
-            {/* 🤖 ElevenLabs Assistant – AUTHENTICATED ONLY */}
+            {/* 🤖 ElevenLabs Assistant — AUTHENTICATED ONLY */}
             <elevenlabs-convai agent-id="agent_6901kcq11vzbffm9bvf4pv3h4kym" />
           </Router>
         </ThemeProvider>
