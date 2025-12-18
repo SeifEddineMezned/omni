@@ -1,4 +1,11 @@
-import React, { Suspense, createContext, useContext, useReducer } from "react";
+import React, {
+  useState,
+  Suspense,
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+} from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,11 +18,11 @@ import { Box, CircularProgress, Backdrop } from "@mui/material";
 import { themes } from "./theme/theme";
 import BrandBackground from "./components/BrandBackground";
 
-// Layout Components
+/* Layout Components */
 import Header from "./components/Layout/Header";
 import Sidebar from "./components/Layout/Sidebar";
 
-// Code splitting with lazy loading for better performance
+/* Lazy-loaded Pages */
 const Dashboard = React.lazy(() => import("./components/Dashboard"));
 const VideoTransition = React.lazy(() =>
   import("./components/VideoTransition")
@@ -28,32 +35,34 @@ const GoalManager = React.lazy(() => import("./components/GoalManager"));
 const RelationshipManager = React.lazy(() =>
   import("./components/RelationshipManager")
 );
-const HomeLifestyle = React.lazy(() => import("./components/HomeLifestyle"));
-const KnowledgeBase = React.lazy(() => import("./components/KnowledgeBase"));
+const HomeLifestyle = React.lazy(() =>
+  import("./components/HomeLifestyle")
+);
+const KnowledgeBase = React.lazy(() =>
+  import("./components/KnowledgeBase")
+);
 const Analytics = React.lazy(() => import("./components/Analytics"));
 const SmartNotifications = React.lazy(() =>
   import("./components/SmartNotifications")
 );
 
-// Auth Components
+/* Auth */
 const Login = React.lazy(() => import("./components/Auth/Login"));
 const Register = React.lazy(() => import("./components/Auth/Register"));
 const Profile = React.lazy(() => import("./components/Auth/Profile"));
 
-// Styles
+/* Styles */
 import "./App.css";
+import "./theme/gradients.css";
 
-// Auth Service
+/* Auth Service */
 import authService from "./services/auth";
 
-// Global App Context for state management
+/* Global App Context */
 const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 
-// Enhanced theme with dark mode support
-import "./theme/gradients.css";
-
-// App state reducer for better state management
+/* Reducer */
 const appReducer = (state, action) => {
   switch (action.type) {
     case "SET_USER":
@@ -74,12 +83,12 @@ const appReducer = (state, action) => {
 const initialState = {
   user: null,
   themeMode: "light",
-  sidebarOpen: false, // Sidebar starts closed - user clicks button to open
+  sidebarOpen: false,
   loading: false,
   notifications: [],
 };
 
-// Loading component
+/* Loading */
 const LoadingSpinner = () => (
   <Backdrop open sx={{ color: "#fff", zIndex: 9999 }}>
     <CircularProgress color="inherit" />
@@ -89,36 +98,32 @@ const LoadingSpinner = () => (
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const { user, themeMode, sidebarOpen, loading } = state;
+
   const theme = React.useMemo(
     () => (themeMode === "dark" ? themes.dark : themes.light),
     [themeMode]
   );
 
-  React.useEffect(() => {
-    // Initialize auth service and check backend session
+  useEffect(() => {
     const initializeAuth = async () => {
       const storedTheme = localStorage.getItem("themeMode") || "light";
       dispatch({ type: "SET_THEME_MODE", payload: storedTheme });
 
-      // Initialize auth service (checks backend for valid session)
       await authService.init();
-
-      // Get current user from auth service (init already fetched it)
       const currentUser =
         authService.user || (await authService.getCurrentUser());
 
       if (currentUser) {
-        // User is authenticated, set user in state
-        const userData = {
-          id: currentUser.id,
-          email: currentUser.email,
-          name: currentUser.email?.split("@")[0] || "User",
-          role: currentUser.role,
-        };
-        dispatch({ type: "SET_USER", payload: userData });
+        dispatch({
+          type: "SET_USER",
+          payload: {
+            id: currentUser.id,
+            email: currentUser.email,
+            name: currentUser.email?.split("@")[0] || "User",
+            role: currentUser.role,
+          },
+        });
       } else {
-        // No valid session, clear any stale data
-        localStorage.removeItem("user");
         dispatch({ type: "SET_USER", payload: null });
       }
     };
@@ -126,41 +131,35 @@ function App() {
     initializeAuth();
   }, []);
 
-  const handleSidebarToggle = React.useCallback(() => {
-    dispatch({ type: "SET_SIDEBAR_OPEN", payload: !sidebarOpen });
-  }, [sidebarOpen]);
+  /* 🤖 Load ElevenLabs widget ONLY when authenticated */
+  useEffect(() => {
+    if (!user) return;
 
-  const toggleTheme = React.useCallback(() => {
-    const newMode = themeMode === "light" ? "dark" : "light";
-    dispatch({ type: "SET_THEME_MODE", payload: newMode });
-    localStorage.setItem("themeMode", newMode);
-  }, [themeMode]);
+    if (!document.querySelector('script[src*="convai-widget-embed"]')) {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
+      script.async = true;
+      script.type = "text/javascript";
+      document.body.appendChild(script);
+    }
+  }, [user]);
 
-  const contextValue = React.useMemo(
-    () => ({
-      state,
-      dispatch,
-      toggleTheme,
-    }),
-    [state, toggleTheme]
-  );
-
-  // Wrapper to provide navigation to the VideoTransition route
   function VideoTransitionWrapper() {
     const navigate = useNavigate();
     return (
       <VideoTransition
         onComplete={() => navigate("/dashboard")}
-        videoPath={"/video.mp4"}
+        videoPath="/video.mp4"
       />
     );
   }
 
+  /* 🔐 UNAUTHENTICATED */
   if (!user) {
     return (
       <>
         <BrandBackground />
-        <AppContext.Provider value={contextValue}>
+        <AppContext.Provider value={{ state, dispatch }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             {loading && <LoadingSpinner />}
@@ -179,10 +178,11 @@ function App() {
     );
   }
 
+  /* ✅ AUTHENTICATED APP */
   return (
     <>
       <BrandBackground />
-      <AppContext.Provider value={contextValue}>
+      <AppContext.Provider value={{ state, dispatch }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {loading && <LoadingSpinner />}
@@ -196,13 +196,23 @@ function App() {
                 zIndex: 1,
               }}
             >
-              <Header onMenuClick={handleSidebarToggle} />
+              <Header
+                onMenuClick={() =>
+                  dispatch({
+                    type: "SET_SIDEBAR_OPEN",
+                    payload: !sidebarOpen,
+                  })
+                }
+              />
 
               <Box sx={{ display: "flex", flex: 1 }}>
                 <Sidebar
                   open={sidebarOpen}
                   onClose={() =>
-                    dispatch({ type: "SET_SIDEBAR_OPEN", payload: false })
+                    dispatch({
+                      type: "SET_SIDEBAR_OPEN",
+                      payload: false,
+                    })
                   }
                 />
 
@@ -220,14 +230,7 @@ function App() {
                     }
                   >
                     <Routes>
-                      <Route
-                        path="/video"
-                        element={
-                          <React.Suspense>
-                            <VideoTransitionWrapper />
-                          </React.Suspense>
-                        }
-                      />
+                      <Route path="/video" element={<VideoTransitionWrapper />} />
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/tasks" element={<TaskManager />} />
@@ -252,6 +255,9 @@ function App() {
                 </Box>
               </Box>
             </Box>
+
+            {/* 🤖 ElevenLabs Assistant – AUTHENTICATED ONLY */}
+            <elevenlabs-convai agent-id="agent_6901kcq11vzbffm9bvf4pv3h4kym" />
           </Router>
         </ThemeProvider>
       </AppContext.Provider>
