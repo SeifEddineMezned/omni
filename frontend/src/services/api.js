@@ -34,5 +34,31 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+/**
+ * Wrapper for services (used by auth.js)
+ */
+export const createApiCall = (apiFunction) => {
+  return async (...args) => {
+    try {
+      const response = await apiFunction(...args);
+      return { success: true, data: response.data };
+    } catch (error) {
+      if (error.response) {
+        return {
+          success: false,
+          message: error.response.data?.message || "Request failed",
+          status: error.response.status,
+        };
+      }
+
+      return {
+        success: false,
+        message: "Network error. Backend unreachable.",
+      };
+    }
+  };
+};
+
 
 export default api;
+
