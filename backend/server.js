@@ -15,11 +15,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 /**
- * ✅ CORS — MUST MATCH FRONTEND EXACTLY
+ * ✅ CORS — MUST be first
  */
 app.use(
   cors({
-    origin: CLIENT_ORIGIN, // e.g. https://omni-3825.onrender.com
+    origin: CLIENT_ORIGIN,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -27,18 +27,23 @@ app.use(
 );
 
 /**
- * Public routes (no auth)
+ * ✅ Explicitly handle preflight requests
+ */
+app.options("*", cors());
+
+/**
+ * ✅ Public routes (NO auth here)
  */
 app.use("/auth", authRoutes);
 app.use("/public", publicRoutes);
 
 /**
- * Auth middleware applies AFTER login
+ * ✅ Auth middleware ONLY after public routes
  */
 app.use(auth);
 
 /**
- * Protected routes
+ * ✅ Protected routes
  */
 app.use("/protected", protectedRoutes);
 
