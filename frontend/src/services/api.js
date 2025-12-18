@@ -1,26 +1,31 @@
 import axios from "axios";
 
 /**
- * IMPORTANT:
- * - No localhost fallback in production
- * - CRA injects env vars at BUILD TIME
- * - If this is undefined, frontend MUST fail loudly
+ * CRA injects env vars at BUILD TIME
+ * REACT_APP_API_URL must be the BACKEND ROOT
+ * example: https://omnibackend-0oc7.onrender.com
  */
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const BACKEND_ROOT = process.env.REACT_APP_API_URL;
 
-if (!API_BASE_URL) {
+if (!BACKEND_ROOT) {
   throw new Error(
     "❌ REACT_APP_API_URL is not defined. Set it in Render → Frontend → Environment"
   );
 }
 
 /**
+ * ✅ IMPORTANT:
+ * Backend routes are mounted under /api
+ * So we append /api ONCE here
+ */
+const API_BASE_URL = `${BACKEND_ROOT}/api`;
+
+/**
  * Axios instance
- * - withCredentials REQUIRED for HttpOnly cookies
- * - baseURL MUST be backend Render URL
+ * withCredentials REQUIRED for HttpOnly cookies
  */
 const api = axios.create({
-  baseURL: API_BASE_URL, // e.g. https://omnibackend-0oc7.onrender.com
+  baseURL: API_BASE_URL,
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -34,7 +39,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Network error (backend unreachable)
+    // Network / CORS / backend down
     if (error.request && !error.response) {
       console.error("❌ Network error:", {
         baseURL: api.defaults.baseURL,
@@ -60,7 +65,7 @@ api.interceptors.response.use(
 
 /**
  * API endpoints
- * NOTE: No full URLs, only relative paths
+ * NOTE: all paths are RELATIVE to /api
  */
 export const apiEndpoints = {
   auth: {
@@ -106,7 +111,8 @@ export const apiEndpoints = {
   },
 
   finance: {
-    getTransactions: (params) => api.get("/finance/transactions", { params }),
+    getTransactions: (params) =>
+      api.get("/finance/transactions", { params }),
     addTransaction: (transaction) =>
       api.post("/finance/transactions", transaction),
     updateTransaction: (id, transaction) =>
@@ -114,7 +120,8 @@ export const apiEndpoints = {
     deleteTransaction: (id) =>
       api.delete(`/finance/transactions/${id}`),
     getBudgets: () => api.get("/finance/budgets"),
-    createBudget: (budget) => api.post("/finance/budgets", budget),
+    createBudget: (budget) =>
+      api.post("/finance/budgets", budget),
     getInsights: () => api.get("/finance/insights"),
   },
 
@@ -137,9 +144,12 @@ export const apiEndpoints = {
 
   notifications: {
     getAll: () => api.get("/notifications"),
-    markRead: (id) => api.patch(`/notifications/${id}/read`),
-    markAllRead: () => api.patch("/notifications/mark-all-read"),
-    delete: (id) => api.delete(`/notifications/${id}`),
+    markRead: (id) =>
+      api.patch(`/notifications/${id}/read`),
+    markAllRead: () =>
+      api.patch("/notifications/mark-all-read"),
+    delete: (id) =>
+      api.delete(`/notifications/${id}`),
   },
 };
 
