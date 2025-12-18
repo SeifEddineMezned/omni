@@ -14,22 +14,33 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// CORS configuration to work with React + Axios (withCredentials: true)
-// REQUIRED: credentials: true allows HttpOnly cookies to be sent
+/**
+ * ✅ CORS — MUST MATCH FRONTEND EXACTLY
+ */
 app.use(
   cors({
-    origin: CLIENT_ORIGIN,
-    credentials: true, // REQUIRED: Allow cookies to be sent
+    origin: CLIENT_ORIGIN, // e.g. https://omni-3825.onrender.com
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+/**
+ * Public routes (no auth)
+ */
+app.use("/auth", authRoutes);
+app.use("/public", publicRoutes);
+
+/**
+ * Auth middleware applies AFTER login
+ */
 app.use(auth);
 
-app.use("/api/auth", authRoutes);
-app.use("/api/protected", protectedRoutes);
-app.use("/api/public", publicRoutes);
+/**
+ * Protected routes
+ */
+app.use("/protected", protectedRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "API is running" });
