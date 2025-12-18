@@ -1,37 +1,51 @@
 import axios from "axios";
 
-// Use full URL for API - ensures proper CORS and cookie handling
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+/**
+ * IMPORTANT:
+ * - No localhost fallback in production
+ * - CRA injects env vars at BUILD TIME
+ * - If this is undefined, frontend MUST fail loudly
+ */
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-// Create axios instance with default config
-// IMPORTANT: withCredentials: true sends HttpOnly cookies automatically
+if (!API_BASE_URL) {
+  throw new Error(
+    "❌ REACT_APP_API_URL is not defined. Set it in Render → Frontend → Environment"
+  );
+}
+
+/**
+ * Axios instance
+ * - withCredentials REQUIRED for HttpOnly cookies
+ * - baseURL MUST be backend Render URL
+ */
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_BASE_URL, // e.g. https://omnibackend-0oc7.onrender.com
   timeout: 10000,
-  withCredentials: true, // REQUIRED: Send HttpOnly cookies with every request
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Response interceptor for error handling
+/**
+ * Global response interceptor
+ */
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Log error for debugging
+    // Network error (backend unreachable)
     if (error.request && !error.response) {
-      console.error("Network error - Backend may not be running:", {
-        url: error.config?.url,
-        baseURL: error.config?.baseURL,
-        message: "Make sure backend is running on http://localhost:5000",
+      console.error("❌ Network error:", {
+        baseURL: api.defaults.baseURL,
+        message: "Backend unreachable or CORS blocked",
       });
     }
 
+    // Unauthorized → clear session
     if (error.response?.status === 401) {
-      // Clear invalid session
       localStorage.removeItem("user");
-      // Only redirect if not already on login/register page
+
       if (
         !window.location.pathname.includes("/login") &&
         !window.location.pathname.includes("/register")
@@ -39,28 +53,29 @@ api.interceptors.response.use(
         window.location.href = "/login";
       }
     }
+
     return Promise.reject(error);
   }
 );
 
-// API endpoints
+/**
+ * API endpoints
+ * NOTE: No full URLs, only relative paths
+ */
 export const apiEndpoints = {
-  // Authentication
   auth: {
     login: (credentials) => api.post("/auth/login", credentials),
     register: (userData) => api.post("/auth/register", userData),
     logout: () => api.post("/auth/logout"),
-    getCurrentUser: () => api.get("/protected/profile"), // Get user from JWT in cookie
+    getCurrentUser: () => api.get("/protected/profile"),
   },
 
-  // User
   user: {
     getProfile: () => api.get("/protected/profile"),
     updateProfile: (data) => api.put("/user/profile", data),
     deleteAccount: () => api.delete("/user/account"),
   },
 
-  // Tasks
   tasks: {
     getAll: (params) => api.get("/tasks", { params }),
     getById: (id) => api.get(`/tasks/${id}`),
@@ -70,7 +85,6 @@ export const apiEndpoints = {
     markComplete: (id) => api.patch(`/tasks/${id}/complete`),
   },
 
-  // Habits
   habits: {
     getAll: () => api.get("/habits"),
     getById: (id) => api.get(`/habits/${id}`),
@@ -81,7 +95,6 @@ export const apiEndpoints = {
     getStreak: (id) => api.get(`/habits/${id}/streak`),
   },
 
-  // Goals
   goals: {
     getAll: () => api.get("/goals"),
     getById: (id) => api.get(`/goals/${id}`),
@@ -92,30 +105,29 @@ export const apiEndpoints = {
       api.patch(`/goals/${id}/progress`, { progress }),
   },
 
-  // Finance
   finance: {
     getTransactions: (params) => api.get("/finance/transactions", { params }),
     addTransaction: (transaction) =>
       api.post("/finance/transactions", transaction),
     updateTransaction: (id, transaction) =>
       api.put(`/finance/transactions/${id}`, transaction),
-    deleteTransaction: (id) => api.delete(`/finance/transactions/${id}`),
+    deleteTransaction: (id) =>
+      api.delete(`/finance/transactions/${id}`),
     getBudgets: () => api.get("/finance/budgets"),
     createBudget: (budget) => api.post("/finance/budgets", budget),
     getInsights: () => api.get("/finance/insights"),
   },
 
-  // Health
   health: {
     getMetrics: () => api.get("/health/metrics"),
     addMetric: (metric) => api.post("/health/metrics", metric),
     getWorkouts: () => api.get("/health/workouts"),
     addWorkout: (workout) => api.post("/health/workouts", workout),
     getNutrition: () => api.get("/health/nutrition"),
-    addNutritionEntry: (entry) => api.post("/health/nutrition", entry),
+    addNutritionEntry: (entry) =>
+      api.post("/health/nutrition", entry),
   },
 
-  // Analytics
   analytics: {
     getDashboard: () => api.get("/analytics/dashboard"),
     getInsights: (type, period) =>
@@ -123,7 +135,6 @@ export const apiEndpoints = {
     getReports: () => api.get("/analytics/reports"),
   },
 
-  // Notifications
   notifications: {
     getAll: () => api.get("/notifications"),
     markRead: (id) => api.patch(`/notifications/${id}/read`),
@@ -132,27 +143,34 @@ export const apiEndpoints = {
   },
 };
 
-// Utility functions
+/**
+ * Error normalizer
+ */
 export const handleApiError = (error) => {
   if (error.response) {
-    // Server responded with error
-    const message = error.response.data?.message || "An error occurred";
-    return { success: false, message, status: error.response.status };
-  } else if (error.request) {
-    // Network error
     return {
       success: false,
-      message: "Network error. Please check your connection.",
-    };
-  } else {
-    // Other error
-    return {
-      success: false,
-      message: error.message || "An unexpected error occurred",
+      message: error.response.data?.message || "Request failed",
+      status: error.response.status,
     };
   }
+
+  if (error.request) {
+    return {
+      success: false,
+      message: "Network error. Backend unreachable.",
+    };
+  }
+
+  return {
+    success: false,
+    message: error.message || "Unexpected error",
+  };
 };
 
+/**
+ * Wrapper for services (used by auth.js)
+ */
 export const createApiCall = (apiFunction) => {
   return async (...args) => {
     try {
