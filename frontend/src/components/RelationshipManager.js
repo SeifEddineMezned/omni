@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -11,6 +11,12 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from '@mui/material';
 import {
   People,
@@ -21,7 +27,7 @@ import {
 } from '@mui/icons-material';
 
 const RelationshipManager = () => {
-  const contacts = [
+  const [contacts, setContacts] = useState([
     {
       id: 1,
       name: 'Sarah Johnson',
@@ -55,7 +61,7 @@ const RelationshipManager = () => {
       notes: 'Sister, lives in Portland',
       avatar: 'ED',
     },
-  ];
+  ]);
 
   const upcomingEvents = [
     {
@@ -72,25 +78,70 @@ const RelationshipManager = () => {
     },
   ];
 
+  const [open, setOpen] = useState(false);
+  const [newContact, setNewContact] = useState({
+    name: '',
+    relationship: '',
+    email: '',
+    phone: '',
+    notes: '',
+  });
+
+  const handleAddContact = () => {
+    if (!newContact.name) return;
+
+    setContacts([
+      ...contacts,
+      {
+        id: Date.now(),
+        ...newContact,
+        avatar: newContact.name
+          .split(' ')
+          .map(n => n[0])
+          .join('')
+          .toUpperCase(),
+        lastContact: new Date().toISOString().split('T')[0],
+      },
+    ]);
+
+    setNewContact({
+      name: '',
+      relationship: '',
+      email: '',
+      phone: '',
+      notes: '',
+    });
+    setOpen(false);
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
         <People sx={{ mr: 2, color: 'primary.main' }} />
-        <Typography variant="h4" component="h1">
-          Relationship Manager
-        </Typography>
+        <Typography variant="h4">Relationship Manager</Typography>
       </Box>
 
       <Grid container spacing={3}>
-        {/* Contacts List */}
+        {/* Contacts */}
         <Grid item xs={12} md={8}>
           <Card>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Contacts
-              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 2,
+                }}
+              >
+                <Typography variant="h6">Contacts</Typography>
+                <Button variant="contained" onClick={() => setOpen(true)}>
+                  Add Contact
+                </Button>
+              </Box>
+
               <List>
-                {contacts.map((contact) => (
+                {contacts.map(contact => (
                   <ListItem key={contact.id} divider>
                     <ListItemAvatar>
                       <Avatar sx={{ bgcolor: 'primary.main' }}>
@@ -99,22 +150,26 @@ const RelationshipManager = () => {
                     </ListItemAvatar>
                     <ListItemText
                       primary={
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                           <Typography variant="subtitle1">
                             {contact.name}
                           </Typography>
-                          <Chip size="small" label={contact.relationship} variant="outlined" />
+                          <Chip size="small" label={contact.relationship} />
                         </Box>
                       }
                       secondary={
                         <Box sx={{ mt: 1 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                             <Email sx={{ fontSize: 16 }} />
-                            <Typography variant="body2">{contact.email}</Typography>
+                            <Typography variant="body2">
+                              {contact.email}
+                            </Typography>
                           </Box>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                             <Phone sx={{ fontSize: 16 }} />
-                            <Typography variant="body2">{contact.phone}</Typography>
+                            <Typography variant="body2">
+                              {contact.phone}
+                            </Typography>
                           </Box>
                           <Typography variant="body2" color="text.secondary">
                             {contact.notes}
@@ -132,7 +187,7 @@ const RelationshipManager = () => {
           </Card>
         </Grid>
 
-        {/* Upcoming Events */}
+        {/* Right Side */}
         <Grid item xs={12} md={4}>
           <Card sx={{ mb: 3 }}>
             <CardContent>
@@ -140,8 +195,8 @@ const RelationshipManager = () => {
                 Upcoming Events
               </Typography>
               <List>
-                {upcomingEvents.map((event, index) => (
-                  <ListItem key={index}>
+                {upcomingEvents.map((event, i) => (
+                  <ListItem key={i}>
                     <ListItemAvatar>
                       <Avatar sx={{ bgcolor: 'secondary.main' }}>
                         {event.type === 'birthday' ? <Cake /> : <Event />}
@@ -157,25 +212,24 @@ const RelationshipManager = () => {
             </CardContent>
           </Card>
 
-          {/* Quick Stats */}
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Quick Stats
               </Typography>
               <Box sx={{ textAlign: 'center', mb: 2 }}>
-                <Typography variant="h3" color="primary.main">
+                <Typography variant="h3" color="primary">
                   {contacts.length}
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography color="text.secondary">
                   Total Contacts
                 </Typography>
               </Box>
               <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h3" color="secondary.main">
+                <Typography variant="h3" color="secondary">
                   {upcomingEvents.length}
                 </Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography color="text.secondary">
                   Upcoming Events
                 </Typography>
               </Box>
@@ -183,6 +237,48 @@ const RelationshipManager = () => {
           </Card>
         </Grid>
       </Grid>
+
+      {/* Add Contact Dialog */}
+      <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
+        <DialogTitle>Add New Contact</DialogTitle>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
+          <TextField
+            label="Name"
+            value={newContact.name}
+            onChange={e => setNewContact({ ...newContact, name: e.target.value })}
+          />
+          <TextField
+            label="Relationship"
+            value={newContact.relationship}
+            onChange={e =>
+              setNewContact({ ...newContact, relationship: e.target.value })
+            }
+          />
+          <TextField
+            label="Email"
+            value={newContact.email}
+            onChange={e => setNewContact({ ...newContact, email: e.target.value })}
+          />
+          <TextField
+            label="Phone"
+            value={newContact.phone}
+            onChange={e => setNewContact({ ...newContact, phone: e.target.value })}
+          />
+          <TextField
+            label="Notes"
+            multiline
+            rows={2}
+            value={newContact.notes}
+            onChange={e => setNewContact({ ...newContact, notes: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={handleAddContact}>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
