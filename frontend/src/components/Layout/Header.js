@@ -28,8 +28,10 @@ const Header = ({ onMenuClick }) => {
   const { state, dispatch, toggleTheme } = useAppContext();
   const { user, themeMode, notifications } = state;
   const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
+  const [notificationAnchorEl, setNotificationAnchorEl] =
+    React.useState(null);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,11 +48,8 @@ const Header = ({ onMenuClick }) => {
 
   const handleLogout = async () => {
     handleMenuClose();
-    // Call backend logout to clear cookie
     await authService.logout();
-    // Clear local state
     dispatch({ type: "SET_USER", payload: null });
-    // Redirect to login
     navigate("/login");
   };
 
@@ -82,13 +81,30 @@ const Header = ({ onMenuClick }) => {
           <MenuIcon />
         </IconButton>
 
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+        {/* 🔥 CLICKABLE OMNI LOGO */}
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          onClick={() => navigate("/dashboard")}
+          sx={{
+            flexGrow: 1,
+            cursor: "pointer",
+            fontWeight: 700,
+            userSelect: "none",
+            "&:hover": {
+              opacity: 0.85,
+            },
+          }}
+        >
           OMNI
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Tooltip
-            title={`Switch to ${themeMode === "light" ? "dark" : "light"} mode`}
+            title={`Switch to ${
+              themeMode === "light" ? "dark" : "light"
+            } mode`}
           >
             <IconButton size="large" color="inherit" onClick={toggleTheme}>
               {themeMode === "light" ? <DarkMode /> : <LightMode />}
@@ -125,18 +141,11 @@ const Header = ({ onMenuClick }) => {
         </Box>
       </Toolbar>
 
+      {/* Account Menu */}
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        id="primary-search-account-menu"
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
@@ -157,16 +166,8 @@ const Header = ({ onMenuClick }) => {
       {/* Notifications Menu */}
       <Menu
         anchorEl={notificationAnchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        id="notifications-menu"
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
         open={isNotificationMenuOpen}
         onClose={handleNotificationMenuClose}
       >
