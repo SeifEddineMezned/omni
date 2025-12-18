@@ -2,6 +2,11 @@ import jwt from "jsonwebtoken";
 import { COOKIE_NAME, JWT_SECRET } from "../config/config.js";
 
 export function auth(req, res, next) {
+  // ✅ ALLOW CORS PREFLIGHT TO PASS
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
   const token = req.cookies[COOKIE_NAME];
 
   if (!token) {
