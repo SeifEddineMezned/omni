@@ -1,0 +1,6 @@
+Flask
+flask-cors
+google-genai==0.8.0
+Pillow
+python-dotenv
+google-generativeai
